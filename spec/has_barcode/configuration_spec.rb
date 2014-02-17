@@ -31,8 +31,15 @@ describe "a barcode configuration" do
       :outputter => :png,
       :type => Barby::Code39
     )
+  end
 
-
+  it 'can take a barcode from a lambda' do
+    require 'barby/barcode/code_39'
+    @configuration = HasBarcode::Configuration.new(:barcode,
+                                                   :outputter => :png,
+                                                   :type => lambda {|c| Barby::Code39 }
+    )
+    @configuration.barcode_class.should eql(Proc)
   end
 end
 

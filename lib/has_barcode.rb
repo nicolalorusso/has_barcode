@@ -21,6 +21,9 @@ module HasBarcode
       define_method args.first do
         if options[:type] == :code_128
           @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self), 'A')
+        elsif opts[:type].kind_of?(Proc)
+          @@barcode_configurations[args.first].barcode_class = opts[:type].call(self)
+          @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self))
         else
           @@barcode_configurations[args.first].barcode_class.new(options[:value].call(self))
         end
